@@ -14,7 +14,6 @@ bool sendMagicPacket(
     const char* broadcast_ip, 
     int port
 ) {
-    printf("function called\n");
     // Default port if not specified
     if (port <= 0) {
         port = WOL_DEFAULT_PORT;
