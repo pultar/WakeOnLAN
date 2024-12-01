@@ -8,7 +8,7 @@
 import CWakeOnLAN
 
 // Swift wrapper around C function
-func sendWakeOnLAN(macAddress: String,
+public func sendWakeOnLAN(macAddress: String,
                    broadcastIP: String = "255.255.255.255",
                    port: Int = 9) -> Bool {
     return sendMagicPacket(
