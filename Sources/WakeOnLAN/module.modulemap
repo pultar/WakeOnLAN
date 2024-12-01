@@ -1,0 +1,4 @@
+module WakeOnLAN {
+    header "include/wake_on_lan.h"
+    export *
+}
