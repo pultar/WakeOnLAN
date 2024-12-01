@@ -11,7 +11,7 @@ import CWakeOnLAN
 func sendWakeOnLAN(macAddress: String,
                    broadcastIP: String = "255.255.255.255",
                    port: Int = 9) -> Bool {
-    return send_wake_on_lan_packet(
+    return sendMagicPacket(
         macAddress,
         broadcastIP,
         Int32(port)
