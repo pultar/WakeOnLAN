@@ -6,11 +6,11 @@ let package = Package(
     products: [
         .library(
             name: "WakeOnLAN",
-            targets: ["WakeOnLAN"])
+            targets: ["CWakeOnLAN"])
     ],
     targets: [
         .target(
-            name: "WakeOnLAN",
+            name: "CWakeOnLAN",
             publicHeadersPath: "include")
     ]
 )
