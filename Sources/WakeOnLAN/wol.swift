@@ -7,16 +7,8 @@
 
 import CWakeOnLAN
 
-public func sendWakeOnLAN(macAddress: String,
-                          broadcastIP: String = "255.255.255.255",
-                          port: Int = 9,
-                          interfaceName: String = "en0") -> Bool {
-    return send_magic_packet(
-        macAddress,
-        broadcastIP,
-        Int32(port),
-        interfaceName
-    )
+public func sendWakeOnLAN(macAddress: String, broadcastIP: String = "255.255.255.255", port: Int = 9, interfaceName: String = "en0") -> Bool {
+    return send_magic_packet(macAddress, broadcastIP, Int32(port), interfaceName)
 }
 
 public func listInterfaces() {
