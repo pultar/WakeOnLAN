@@ -11,10 +11,15 @@
  * @param port Port to send the WoL packet (default is 9)
  * @return true if packet sent successfully, false otherwise
  */
-bool sendMagicPacket(
-    const char* mac_address, 
-    const char* broadcast_ip, 
-    int port
+bool send_magic_packet(
+    const char *mac_address,
+    const char *broadcast_ip,
+    int port,
+    const char *interface_name
 );
+
+int get_interface_index(const char *interface_name);
+
+int list_interfaces();
 
 #endif // WAKE_ON_LAN_H
