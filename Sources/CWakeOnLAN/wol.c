@@ -12,50 +12,6 @@
 #define WOL_DEFAULT_PORT 9
 #define MAC_ADDRESS_LENGTH 6
 
-int get_interface_index(const char *interface_name) {
-    struct ifaddrs *ifap, *ifa;
-    struct sockaddr_in *sa;
-    int index = -1;
-    
-    if (getifaddrs(&ifap) != 0) {
-        perror("getifaddrs failed");
-        return -1;
-    }
-    
-    for (ifa = ifap; ifa != NULL; ifa = ifa->ifa_next) {
-        if (ifa->ifa_addr->sa_family == AF_INET) {
-            sa = (struct sockaddr_in *)ifa->ifa_addr;
-            if (strcmp(ifa->ifa_name, interface_name) == 0) {
-                index = if_nametoindex(ifa->ifa_name);
-                break;
-            }
-        }
-    }
-    
-    freeifaddrs(ifap);
-    return index;
-}
-
-int list_interfaces() {
-    struct ifaddrs *ifap, *ifa;
-    struct sockaddr_in *sa;
-    int index = -1;
-    
-    if (getifaddrs(&ifap) != 0) {
-        perror("getifaddrs failed");
-        return -1;
-    }
-    
-    for (ifa = ifap; ifa != NULL; ifa = ifa->ifa_next) {
-        if (ifa->ifa_addr->sa_family == AF_INET) {
-            printf("interface: %s\n", ifa->ifa_name);
-        }
-    }
-    
-    freeifaddrs(ifap);
-    return 0;
-}
-
 bool send_magic_packet(const char *mac_address, const char *broadcast_ip, int port, const char *interface_name) {
     // Default port if not specified
     if (port <= 0) {
@@ -87,9 +43,10 @@ bool send_magic_packet(const char *mac_address, const char *broadcast_ip, int po
     }
     
     // Get the network interface index for the specified interface
-    int interface_index = get_interface_index(interface_name);
-    if (interface_index == -1) {
-        fprintf(stderr, "Failed to get interface index for %s\n", interface_name);
+    int interface_index = if_nametoindex(interface_name);
+    printf("Interface index is %d\n", interface_index);
+    if (setsockopt(sock, IPPROTO_IP, IP_BOUND_IF, &interface_index, sizeof(interface_index)) < 0) {
+        fprintf(stderr, "Binding to interface failed for %d\n", interface_index);
         close(sock);
         return false;
     }
